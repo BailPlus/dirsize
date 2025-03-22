@@ -17,6 +17,8 @@ class DirScanner:
         self.isdetail = isdetail
         self.dirs = {}
         self.files = {}
+    def __repr__(self):
+        return f'<DirScanner dir={self.dirpath}, size={self.total}>'
     def _get_dirs(self)->list[str]:
         dirs = []
         for file in os.listdir(self.dirpath):
