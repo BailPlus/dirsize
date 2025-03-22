@@ -18,7 +18,7 @@ class DirScanner:
         self.dirs = {}
         self.files = {}
     def __repr__(self):
-        return f'<DirScanner dir={self.dirpath}, size={self.total}>'
+        return f'<DirScanner dir={self.dirpath}, size={self._beautify_size(self.total)}>'
     def _get_dirs(self)->list[str]:
         dirs = []
         for file in os.listdir(self.dirpath):
@@ -33,11 +33,11 @@ class DirScanner:
             case _ if 0 <= size < 1024**1:
                 return '%d B' % size
             case _ if 1024**1 <= size < 1024**2:
-                return '%d KB' % (size/1024**1)
+                return '%.3f KB' % (size/1024**1)
             case _ if 1024**2 <= size < 1024**3:
-                return '%d MB' % (size/1024**2)
+                return '%.2f MB' % (size/1024**2)
             case _ if 1024**3 <= size < 1024**4:
-                return '%d GB' % (size/1024**3)
+                return '%.1f GB' % (size/1024**3)
             case _:
                 return '%d TB' % (size/1024**4)
     def scan(self):
