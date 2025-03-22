@@ -58,11 +58,14 @@ class DirScanner:
             res += i
         return res
     def output(self,recurse_depth:int=0):
-        for i in sorted(self.dirs,key=lambda x:self.dirs[x].total,reverse=True):
+        dirs,files = self.sort()
+        for i in dirs:
             dirobj = self.dirs[i]
             print('\033[33m'+'| '*recurse_depth+'|-',end='\033[32m')
             print(i+'/',self._beautify_size(dirobj.total),sep=' \033[31m',end='\033[0m\n')
             dirobj.output(recurse_depth+1)
-        for i in sorted(self.files,key=self.files.get,reverse=True):
+        for i in files:
             print('\033[33m'+'| '*recurse_depth+'|-',end='\033[32m')
             print(i,self._beautify_size(self.files[i]),sep=' \033[31m',end='\033[0m\n')
+    def sort(self)->tuple[list,list]:
+        return sorted(self.dirs,key=lambda x:self.dirs[x].total,reverse=True),sorted(self.files,key=self.files.get,reverse=True)
